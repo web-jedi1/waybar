@@ -1,0 +1,121 @@
+{
+    "layer": "top",
+    "position": "top",
+    "mod": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+    "height": 0,
+    "modules-left": [
+        "clock",
+        "custom/weather",
+        "wlr/workspaces"
+    ],
+    "modules-center": ["hyprland/window"],
+    "modules-right": [
+        "tray",
+        //"custom/updates",
+        //"custom/language",
+        //"backlight",
+        "network",
+        "pulseaudio"
+    ],
+
+    "hyprland/window": {
+        "format": "{}"
+    },
+    "wlr/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "on-click": "activate",
+        "format": "{icon}",
+        "persistent_workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": [],
+            "6": [],
+            "7": [],
+            "8": [],
+            "9": [],
+            "10": []
+        }
+    },
+    "custom/updates": {
+        "format": " {}",
+        "interval": 7200,                     // every two hours
+        "exec": "i=$(checkupdates); echo \"$i\" |wc -l; echo \"$i\" |column -t |tr '\n' '\r'",       // # of updates and tooltip details
+        "exec-if": "exit 0",                  // always run; consider advanced run conditions
+        "on-click": "kitty -e sudo pacman -Syu", // update system
+        "signal": 8
+    },
+   "custom/weather" : {
+        "tooltip" : true,
+        "format" : "{}",
+        "interval" : 60,
+        "exec" : "~/.config/waybar/scripts/waybar-wttr.py",
+        "return-type" : "json"
+    },
+    "tray": {
+        "icon-size": 13,
+        "spacing": 10,
+        "show-passive-items": true
+    },
+    "clock": {
+        "format": "{: %R   %d/%m}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon} {percent}%",
+        "format-icons": ["", "", ""],
+        "on-scroll-up": "brightnessctl set 1%+",
+        "on-scroll-down": "brightnessctl set 1%-",
+        "min-length": 6
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "tooltip": false,
+        "format-muted": " Muted",
+        "on-click": "pavucontrol",
+        "on-scroll-up": "pamixer -i 5",
+        "on-scroll-down": "pamixer -d 5",
+        "scroll-step": 5,
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        }
+    },
+    "network": {
+        "interval": 1,
+        "tooltip": false,
+        "format": "[UP:{bandwidthUpBytes} | DOWN:{bandwidthDownBytes}] [{ipaddr}]  {icon}",
+        "format-alt": "{icon}",
+        "format-alt-click": "click-right",
+        "format-icons": {
+          "wifi": [
+            " "
+          ],
+          "ethernet": [
+            " "
+          ],
+          "disconnected": [
+            "睊"
+          ]
+        },
+        "on-click": "kitty -e nmtui"
+    },
+    "network#vpn": {
+      "interval": 5,
+      "interface": "tun0",
+      "format": "{icon}",
+      "format-disconnected": "",
+      "tooltip-format": "VPN Connected: {ipaddr}"
+  }
+}
